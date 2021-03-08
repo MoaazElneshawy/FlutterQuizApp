@@ -67,14 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          // the App.build method, and use it to set our appbar title.
+          centerTitle: true,
           title: Text(widget.title),
         ),
         body: _questionIndex < _questions.length
             ? Quiz(_questionIndex, _questions, _getNextQuestion)
-            : Result('Your score is $_score',
-                _restart) // This trailing comma makes auto-formatting nicer for build methods.
-        );
+            : Result('Your score is $_score', _restart));
   }
 
   void _getNextQuestion(int score) {
