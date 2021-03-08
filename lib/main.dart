@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'answer.dart';
-import 'question.dart';
+import 'package:quizapp/quiz.dart';
+import 'package:quizapp/result.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,30 +32,62 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _questionIndex = 0;
-  var questions = [
-    'What\'s your favorite color?',
-    'What\'s your favorite car?',
-    'What\'s your favorite city?'
+  int _score = 0;
+
+  static const _questions = [
+    {
+      'questionText': 'What\'s your favorite color?',
+      'answers': [
+        {'text': 'Black', 'score': 10},
+        {'text': 'Yellow', 'score': 8},
+        {'text': 'White', 'score': 1}
+      ]
+    },
+    {
+      'questionText': 'What\'s your favorite car?',
+      'answers': [
+        {'text': 'BMW', 'score': 10},
+        {'text': 'MG', 'score': 7},
+        {'text': 'Rolls-Royce', 'score': 1},
+        {'text': 'Corvette', 'score': 10},
+      ]
+    },
+    {
+      'questionText': 'What\'s your favorite city?',
+      'answers': [
+        {'text': 'London', 'score': 10},
+        {'text': 'Cairo', 'score': 6},
+        {'text': 'Paris', 'score': 4},
+        {'text': 'Singapore', 'score': 1},
+      ]
+    }
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Column(
-        children: [
-
-        ],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        appBar: AppBar(
+          // the App.build method, and use it to set our appbar title.
+          title: Text(widget.title),
+        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(_questionIndex, _questions, _getNextQuestion)
+            : Result('Your score is $_score',
+                _restart) // This trailing comma makes auto-formatting nicer for build methods.
+        );
   }
 
-  void _getNextQuestion() {
+  void _getNextQuestion(int score) {
+    _score += score;
     setState(() {
       _questionIndex = _questionIndex + 1;
+    });
+  }
+
+  void _restart() {
+    setState(() {
+      _questionIndex = 0;
+      _score = 0;
     });
   }
 }
